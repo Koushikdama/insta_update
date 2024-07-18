@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+        
+{% block content %}
+
+<div class="columns is-mobile">
+  <div class="column is-half is-offset-one-quarter">
+
+    <div class="card">
+    <div class="card-content">
+
+    <form method="post" enctype="multipart/form-data" action="" role="form">
+      {% csrf_token %}
+    <h3 class="title is-3">Edit Profile</h3>
+
+          <div class="field">
+              <label class="label is-medium">Choose your picture</label>
+              <div class="file is-boxed">
+               
+                {% render_field form.picture value=profile.picture id="profile_pic" %}
+              </div>
+          </div>
+
+          <div class="field">
+              <label class="label is-medium">First name</label>
+              <div class="control">
+                
+                {% render_field form.first_name  value=profile.first_name  %}
+              </div>
+          </div>
+
+          <div class="field">
+              <label class="label is-medium">Last name</label>
+              <div class="control">
+               {% render_field form.last_name  value=profile.last_name  %}
+               
+               
+              </div>
+          </div>
+
+          <div class="field">
+              <label class="label is-medium">Location</label>
+              <div class="control">
+               
+                {% render_field form.location value=profile.location  %}
+              </div>
+          </div>
+
+          <div class="field">
+              <label class="label is-medium">url</label>
+              <div class="control">
+                
+                {% render_field form.url value=profile.url  %}
+                
+              </div>
+          </div>
+
+
+
+
+
+          <div class="field">
+            {% render_field form.type_account value=profile.is_private   %}
+          </div>
+          <div id="account_type" data={{ profile_type }}></div>
+
+                <!---->
+          <h5> if you want to Notifications Via mail <h5>
+          <div class="field">
+            {% render_field form.send_mail value=profile.is_send_notifications   %}
+          </div>
+          
+          <div id="is_send_sms" data={{ profile_sms }}></div>
+
+           
+            
+      <div class="row">
+        <div class="col s12">
+          <span style="color: red; font-weight: bold;">{{ form.errors }}</span>
+        </div>
+      </div>
+
+
+      <div class="field">
+      <p class="control">
+        <button type="submit" value="login" class="button is-success">
+          Update
+        </button>
+      </p>
+    </div>
+
+    </form>
+  </div>
+</div>
+
+  </div>
+</div>
+
+{% block extra_script %}
+<script>
+  //var formData = {{ profile_type }};
+  var a= document.getElementById("account_type").getAttribute("data");
+  
+
+
+  if(a=="private"){
+  var public = document.getElementById("id_type_account_0");
+  public.checked=true
+  
+  }
+  else{
+  var private = document.getElementById("id_type_account_1");
+  private.checked=true;
+  
+  }
+  
+
+  var sms= document.getElementById("is_send_sms").getAttribute("data");
+  console.log(sms)
+  
+  
+
+
+  if(sms=="yes"){
+  var sms_yes = document.getElementById("id_send_mail_0");
+  sms_yes.checked=true
+  
+  }
+  else{
+  var sms_no = document.getElementById("id_send_mail_1");
+  sms_no.checked=true;
+  
+  }
+  
+
+  
+
+
+   
+function hii(){
+  console.log("this is profile pic ",profile.picture)
+}
+hii();
+</script>
+
+
+{% endblock %}
+
+{% endblock %}
+

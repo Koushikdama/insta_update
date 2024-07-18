@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+      <link rel="stylesheet" href="{% static 'css/main.css' %}">
+      {% block extra_css %} {% endblock %}
+  </head>
+  <body id="full">
+
+    <nav class="navbar is-info message-nav nav-glass dk " role="navigation" aria-label="main navigation" >
+      <div class="navbar-brand">
+    <a class="navbar-item" href="">
+      <span class= "material-symbols-outlined">
+        sensor_occupied
+        </span>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a  href ="{% url 'index' %}"class="navbar-item">
+        <i class="material-icons">home</i>
+        Home
+      </a>
+
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Settings
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            Change password
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a href="{% url 'logout' %}" class="navbar-item">
+            Log out
+          </a>
+        </div>
+      </div>
+
+      <a class="navbar-item">
+        <i class="material-icons">explore</i>
+        Explore
+      </a>
+
+      <a href="{% url 'show-notifications' %}" class="navbar-item">
+        <i class="material-icons">notifications</i>
+        Notifications
+        {% if count_notifications %}
+          <span class="badge">{{ count_notifications }}</span>
+        {% endif %}
+       
+      </a>
+
+      <a  class="navbar-item" href= "{% url 'inbox' %}">
+        <i class= "material-icons">chat</i>
+        messanges
+        {% if directs_count %}
+        <span class="badge">{{ directs_count }}</span>
+        {% endif %}
+      </a>
+       
+       
+      </a>
+
+      <a href="{% url 'profile' request.user %}" class="navbar-item">
+        <i class="material-icons">face</i>
+        Profile - <strong>{{ request.user }}</strong>
+      </a>
+
+        <a href = "{% url 'newpost' %}"  class="navbar-item">
+          <i class="material-icons">perm_media</i>
+          <strong>New Post</strong>
+        </a>
+
+        <a  href="{% url 'newstory' %}" class="navbar-item">
+          <i class="material-icons">photo_filter</i>
+          <strong>New Story</strong>
+        </a>
+        <a  href=""class="navbar-item">
+          <span class="material-icons">
+            sports_esports
+            </span>
+            <strong>Play</strong>
+        </a>
+        
+    </div>
+
+  </div>
+</nav>
+
+      {% block banner %}
+      {% endblock %}
+
+  <section class="section" >
+    <div class="container">
+{% block content %}
+      
+      {% endblock %}
+
+
+      {% block pagination %}
+      {% endblock %}
+
+    </div>
+  </section>
+
+
+
+  </body>
+ 
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/init.js' %}"></script>
+  
+  
+  {% block extra_script %}{% endblock %}
+</html>

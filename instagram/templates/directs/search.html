@@ -1,0 +1,291 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block extra_css%}
+
+  <link rel="stylesheet" href="{% static 'css/message/bootstrap3.3/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/message/chat.css' %}">
+  <link rel="stylesheet" href="{% static 'css/message/theme-msg.css' %}">
+ 
+
+  <!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css"
+rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+{% endblock %}
+{% block content %}
+
+<div id="app" class="app">
+
+    <!-- LEFT SECTION -->
+
+    <section id="main-left" class="main-left">
+      <!-- header -->
+      <div id="header-left" class="header-left">
+        <span class="glyphicon glyphicon-menu-hamburger hamburger-btn"></span>
+        <span class="glyphicon glyphicon-search search-btn"></span>
+        <span class="glyphicon glyphicon-option-vertical option-btn"></span>
+      </div>
+
+      <!-- chat list -->
+      <div id="chat-list" class="chat-list">
+        <!-- user lists -->
+        {% if all_user %}
+        {% for i in all_user %}
+        <a href="{% url 'directs' i.user.username %}">
+        <div id="friends" class="friends">
+          <!-- photo -->
+          <div class="profile friends-photo">
+            {% if i.picture %}
+            <img src="{{ i.picture.url }}" alt="">
+            {% else%}
+            <img src="images/ava2.jpg" alt="">
+            {% endif %}
+          </div>
+          
+          <div class="friends-credent">
+            <!-- name -->
+            <span class="friends-name">{{ i.user.username }}</span>
+            <!-- last message -->
+            <span class="friends-message">Crap! I forgot my shoes. Can you bring extra pair for me?</span>
+          </div>
+          <!-- notification badge -->
+          <span class="badge notif-badge">7</span>
+        </div>
+      </a>
+        {% endfor %}
+
+        {% else %}
+        <div id="friends" class="friends">
+          <!-- photo -->
+          <div class="profile friends-photo">
+            <img src="images/ava2.jpg" alt="">
+          </div>
+          
+          <div class="friends-credent">
+            <!-- name -->
+            <span class="friends-name">Mario Gomez</span>
+            <!-- last message -->
+            <span class="friends-message">Crap! I forgot my shoes. Can you bring extra pair for me?</span>
+          </div>
+          <!-- notification badge -->
+          <span class="badge notif-badge">7</span>
+        </div>
+        {% endif %}
+
+       
+
+        
+
+        
+
+        
+
+        
+      </div>
+
+      <!-- self-profile -->
+      <div id="self-info" class="self-info">
+        <!-- photo -->
+        <div class="profile your-photo">
+          <img src="" alt="">
+        </div>
+        <!-- name -->
+        <h4 class="name your-name">Iqbal Taufiq</h4>
+        <!-- setting btn -->
+        <span class="glyphicon glyphicon-cog"></span>
+      </div>
+    </section>
+
+
+
+    <!-- RIGHT SECTION -->
+
+    <section id="main-right" class="main-right">
+      <!-- header -->
+      <div id="header-right" class="header-right">
+        <!-- profile pict -->
+        <div id="header-img" class="profile header-img">
+          <img src="" alt="">
+        </div>
+
+        <!-- name -->
+        <h4 class="name friend-name">Mario Gomez</h4>
+
+        <!-- some btn -->
+        <div class="some-btn">
+          <span class="glyphicon glyphicon-facetime-video"></span>
+          <span class="glyphicon glyphicon-earphone"></span>
+          <span class="glyphicon glyphicon-option-vertical option-btn"></span>
+        </div>
+      </div>
+
+      <!-- chat area -->
+      <div id="chat-area" class="chat-area">
+        <!-- chat content -->
+
+        <!-- FRIENDS CHAT TEMPLATE -->
+        <div id="friends-chat" class="friends-chat">
+          <div class="profile friends-chat-photo">
+            <img src="" alt="">
+          </div>
+          <div class="friends-chat-content">
+            <p class="friends-chat-name">NO MESSAGES </p>
+            <p class="friends-chat-balloon">NO MESSAGE </p>
+            <h5 class="chat-datetime">Sun, Aug 30 | 15:41</h5>
+          </div>
+        </div>
+
+        
+        <!-- YOUR CHAT TEMPLATE -->
+        <div id="your-chat" class="your-chat">
+          <p class="your-chat-balloon">NO MESSAGES </p>
+          <p class="chat-datetime"><span class="glyphicon glyphicon-ok"></span> Sun, Aug 30 | 15:45</p>
+        </div>
+
+        
+        
+        <!-- YOUR CHAT TEMPLATE -->
+        
+       
+
+        
+
+       
+
+
+      </div>
+
+      <!-- typing area -->
+      <div id="typing-area" class="typing-area">
+        <!-- input form -->
+        <input id="type-area" class="type-area" placeholder="Type something...">
+        <!-- attachment btn -->
+        <div class="attach-btn">
+          <span class="glyphicon glyphicon-paperclip file-btn"></span>
+          <span class="glyphicon glyphicon-camera"></span>
+          <span class="glyphicon glyphicon-picture"></span>
+        </div>
+        <!-- send btn -->
+        <span class="glyphicon glyphicon-send send-btn"></span>
+      </div>
+    </section>
+  </div>
+
+  
+
+
+
+
+
+{% endblock %}
+  {% block extra_script %}
+
+    <!-- jQuey, Popper, BootstrapJS -->
+    <script src="{% static 'css/message/bootstrap3.3/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'css/message/bootstrap3.3/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/message/message.js' %}"></script>
+    <script src="{% static 'js/message/theme-msg.js' %}"></script>
+    <!-- MDB -->
+<script type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"
+></script>
+<script>
+
+    document.querySelector('.send-btn').addEventListener('click', function() {
+        document.getElementById('message-form').submit();
+    });
+
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.dropdown-submenu a.dropdown-toggle').on("click", function(e) {
+          var $subMenu = $(this).next(".dropdown-menu");
+          $subMenu.toggle();
+          e.stopPropagation();
+          e.preventDefault();
+      });
+  });
+  </script>
+
+
+
+<script>
+
+  $(document).ready(function() {
+    var a = $('#dropdown_menu');
+    var submit=$("#theme-submit");
+    
+    a.empty(); // Clear the contents of the selected element
+    //console.log(a); // Log the jQuery object to the console
+    let dropdownMenu = $('#dropdown_menu');
+
+            // Get the value of the custom attribute 'dama'
+            let damaValue = dropdownMenu.attr('dama');
+
+            // Print the value to the console
+            
+    
+    var b = [
+        "background: linear-gradient(115deg, #ff8800, #ff3300);",
+        "background: linear-gradient(115deg, #004ff9, #fff94c);",
+        "background: linear-gradient(115deg, #fa8bff, #2bd2ff, #2bff88);",
+        "background: linear-gradient(115deg, #f878ff, #ffda9e, #ffffff);",
+        "background: linear-gradient(115deg, #ff004c, #ffffff, #0099ff);",
+        "background: linear-gradient(115deg, #a0e384, #ffc180, #db35af);",
+        "background: linear-gradient(115deg, #60ff60, #b9f7ff, #ff7a7a);",
+        "background: linear-gradient(115deg, #f4d7d7, #fe8584, #f5d3b3);"
+    ];
+   
+    
+    a.prepend('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
+    for (let x in b) {
+     
+      // Assuming s[y] contains the shape value 
+a.append(` <li><input type="radio" name="theme" value="${b[x]}" class="dropdown-item choose-theme" id="choose-theme" onchange="this.form.submit()"><div class="koushik" style=" ${b[x]} "></div></a></li>`);
+    } 
+    a.append(submit)
+});
+
+$(document).ready(function() {
+  var theme=$("#mySpan").text();
+
+  $("#mySpan").hide();
+ 
+  //console.log("theme",theme)
+  $(".choose-theme").each(function() {
+    var value = $(this).val();
+    // Check if the value of the current radio button matches the value you want to match
+    if ($(this).val() == theme) {
+        // Set the checked attribute to true for the matching radio button
+        $(this).prop('checked', true);
+    }})
+});
+</script>
+<script>
+function Edit_Msg(body,id){
+  $(".msg_id").val(id);
+  $(".message_body").val(body);
+  $(".checking").val("1");
+  console.log(body,id)
+}
+
+</script>
+
+
+{% endblock %}
+
+

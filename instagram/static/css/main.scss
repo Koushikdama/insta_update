@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+*{
+    -webkit-tap-highlight-color: transparent;
+}
+html,body{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    background: rgb(240, 240, 240);
+}
+.wrapper{
+    padding: 1em;
+}
+main{
+    display: flex;
+    justify-content: space-between;
+}
+.header__link{
+    position: relative;
+    &::before{
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        width: 100%;
+        height: 2px;
+        background: #000;
+        transform: translateY(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: 200ms ease;
+    }
+    &.active{
+        &::before{
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+.left{
+    width: 50%;
+    position: relative;
+}
+.line{
+    width: 100%;
+    height: 70px;
+    position: relative;
+    overflow: hidden;
+    span{
+        position: absolute;
+        font-size: 3rem;
+        line-height: 4.2rem;
+    }
+}
+ul{
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+    margin-right: auto;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+li a{
+    margin-right: 2em;
+}
+h1{
+    font-size: 3em;
+}
+.cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 222px;
+    width: 100%;
+    padding: 2em 2em 2em 0;
+    font-size: 1.4em;
+}
+img{
+    width: 100%;
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+}
+ul.transition{
+    display: flex;
+    position: absolute;
+    z-index: 10;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    pointer-events: none;
+}
+ul.transition li{
+    transform: scaleY(0);
+    background: white;
+    width: 20%;
+}
+@media(min-width: 650px) {
+    main {
+        display: flex;
+        margin-top: 3em;
+        position: relative;
+        z-index: 3;
+    }
+    .wrapper{
+        max-width: 950px;
+        margin: 0 auto;
+    }
+    .left{
+        padding-right: 2em;
+    }
+    img{
+        width: 400px;
+    }
+    .cta{
+        padding: 1em;
+        background: white;
+        position: absolute;
+        z-index: 21 !important;
+        max-width: 222px;
+        width: 100%;
+        animation-fill-mode: initial;
+    }
+}

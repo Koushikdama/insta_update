@@ -1,0 +1,356 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block extra_css%}
+
+  <link rel="stylesheet" href="{% static 'css/message/bootstrap3.3/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/message/chat.css' %}">
+  <link rel="stylesheet" href="{% static 'css/message/theme-msg.css' %}">
+ 
+
+  <!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css"
+rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+{% endblock %}
+{% block content %}
+
+  <div id="app" class="app" style="margin-top:50px;position:relative;top:40px;margin-bottom:20px;overflow: hidden;">
+<!--start modal -->
+
+    <!-- LEFT SECTION -->
+
+    <section id="main-left" class="main-left" style="{{ theme }}">
+      <!-- header -->
+      <div id="header-left" class="header-left" style="{{ theme }}">
+        <!--<span class="glyphicon glyphicon-menu-hamburger hamburger-btn"></span>-->
+        <span class="material-symbols-rounded">
+          groups
+          </span>
+        <span class="glyphicon glyphicon-search search-btn" ></span>
+
+
+        <div class="form-outline" data-mdb-input-init>
+          <input type="text" id="formControlDefault" class="form-control" />
+          <label class="form-label" for="formControlDefault">Form control default</label>
+        </div>
+        
+      </div>
+
+      <!-- chat list -->
+      <div id="chat-list" class="chat-list" style="{{ theme }}">
+        <!-- user lists -->
+       
+        {% for message in messages %}
+        <!-- 1) START  LEFT ONE FRIEND-->
+        <a href="{% url 'directs' message.user.username %}">
+        <div id="friends" class="friends">
+          <!-- photo -->
+          <div class="profile friends-photo">
+            {% if message.user.profile.picture %}
+            <img src="{{ message.user.profile.picture.url}}" alt="">
+            {% else %}
+            <img src="" alt="">
+            {% endif %}
+          </div>
+          <div class="friends-credent">
+            <!-- name -->
+            <span class="friends-name">{{ message.user.username }}</span>
+            <!-- last message -->
+            <span class="friends-message">How are you?</span>
+          </div>
+          <!-- notification badge -->
+          <span class="badge notif-badge">999</span>
+        </div>
+        <!-- 1) END LEFT ONE FRIEND -->
+      </a>
+        {% endfor %}
+
+
+
+
+
+          <!-- 2) START  LEFT ONE FRIEND-->
+       
+        <!-- 2) END LEFT ONE FRIEND -->
+      </div>
+
+      <!-- self-profile -->
+      
+      
+    </section>
+
+
+
+    <!-- RIGHT SECTION -->
+
+    <section id="main-right" class="main-right">
+      <!-- header -->
+      
+      <div id="header-right dropdown-menu-chat" class="header-right" style="{{ theme }}">
+        <!-- profile pict -->
+        <div id="header-img" class="profile header-img">
+          {% if profile_receiver.picture %}
+          <img src="{{ profile_receiver.picture.url }}" alt="">
+          {% else %}
+          <img src="" alt="">
+          {% endif %}
+        </div>
+
+        <!-- name -->
+        <h1 class="name friend-name" id="dropdown-menu-chat"><strong>{{ profile_receiver.user.username }}</strong> </h1>
+      
+
+        <!-- some btn -->
+        <div class="some-btn">
+          <strong><span class="glyphicon glyphicon-facetime-video"></span></strong>
+          <span class="glyphicon glyphicon-earphone"></span>
+          <div class="btn-group dropstart">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="glyphicon glyphicon-option-vertical option-btn" data-mdb-ripple-init></span>
+            </button>
+            <ul class="dropdown-menu" id="dropdown-menu-header" style="top:-50px">
+                <li><a class="dropdown-item" href="#"><h3>view profile</h3></a></li>
+                <strong><li><a class="dropdown-item" href="#"><h3>set wallpaper </h3></a></li></strong>
+
+                <li class="dropdown-submenu dropleft">
+                    <a class="dropdown-item dropdown-toggle" href="#"><h3>change theme</h3></a>
+                    <ul class="dropdown-menu" style="max-height: 175px; overflow-y: auto;"  dama={{ profile_receiver.user.username }}>
+                      <form id="dropdown_menu" action="{% url 'change-color' %}" method="POST">
+                       
+
+
+
+                     
+                       
+                      </form>
+
+                    
+
+                    
+
+                       
+                        
+                        <li><a class="dropdown-item" href="#">Dark Theme</a></li>
+                        <li><a class="dropdown-item" href="#">Blue Theme</a></li>
+                    </ul>
+                </li>
+                <li><a class="dropdown-item" href="#"><h3>clear chat</h3></a></li>
+            </ul>
+        </div>
+        </div>
+      </div>
+
+      <!-- chat area -->
+      <div id="chat-area" class="chat-area" >
+        <!-- chat content -->
+        {% for direct in directs %}
+        {% if direct.sender == request.user %}
+        {% if direct.sender_deleted == False %}
+        <!-- START YOUR CHAT TEMPLATE -->
+        <div id="your-chat" class="your-chat" style="margin-top: 30px;}">
+          <div class="your-chat group dropdown dropleft" id="your-chat">
+            {% if direct.body == 'deleting every one' %}
+            <p class="your-chat-balloon"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" style="{{ theme }} opacity:0.5;">{{ direct.body }}<span id="mySpan" hidden >{{ theme }}</span> </p>
+            <div class="dropdown-menu" style="margin-right:80px; left: -40px;" id="dropdown-menu-chat">
+
+              <a class="dropdown-item" href="{% url 'delete-for-me' direct.pk %}">delete </a>
+            </div>
+            {% else %}
+            <p class="your-chat-balloon"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" style="{{ theme }}">{{ direct.body }} </p>
+            
+            <div class="dropdown-menu" style="margin-right:80px; left: -40px;" id="dropdown-menu-chat">
+              <a href="{% url 'delete-message' direct.pk %}" class="dropdown-item"><strong>delete for everyone</strong></a>
+              <a class="dropdown-item" href="{% url 'delete-for-me' direct.pk %}">for me </a>
+              <a class="dropdown-item" onclick="Edit_Msg('{{ direct.body }}', '{{ direct.pk }}')">Edit Msg</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+            {% endif %}
+            
+            
+          </div>
+        
+          <p class="chat-datetime"><span class="glyphicon glyphicon-ok"></span> <span style="color:white">{{direct.date|date:"d M, Y"}}</span> </p>
+        </div>
+        {% endif %}
+        <!--END  your chat -->
+        {% else %}
+        {% if direct.recipient_deleted == False %}
+        <!-- START FRIENDS CHAT TEMPLATE -->
+        <div id="friends-chat" class="friends-chat">
+          <div class="profile friends-chat-photo">
+            {% if direct.sender.profile.picture %}
+            <img src="{{ direct.sender.profile.picture.url }}" alt="">
+            {% else %}
+            <img src="images/ava2.jpg" alt="">
+            {% endif %}
+          </div>
+          <div class="friends-chat-content">
+              <p class="friends-chat-name">{{ direct.sender.profile.user.username }}</p>
+
+              <p class="friends-chat-balloon">{{ direct.body }}</p>
+              <!--start-->
+              <div class="btn-group dropup">
+                    <span class="glyphicon glyphicon-option-vertical option" aria-haspopup="true" aria-expanded="false"
+                    data-mdb-ripple-init aria-expanded="false"  data-toggle="dropdown"></span>
+                 <div class="dropdown-menu" id="dropdown-menu-chat" t>
+                    <a class="dropdown-item" href="{% url 'delete-receiver-msg' direct.pk %}" >delete</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </div>
+                  <!--end-->
+                <h5 class="chat-datetime">{{direct.date|date:"d M, Y"}}</h5> 
+            </div>
+        </div>
+      <!--end friend chat template -->
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+      </div>
+
+      <!-- typing area -->
+     
+      
+      <div id="typing-area" class="typing-area">
+        <!-- input form -->
+        <form id="message-form" method="POST" action="{% url 'send-directs' %}">
+          {% csrf_token %}
+          <input type="text" name="to_user" id="" value="{{active_direct}}" >
+          <input type="text" name="msgid" class="msg_id">
+          <input type="text" name="checking" class="checking" value="0" >
+          <input id="typing-area" class="typing-area message_body" placeholder="Type something..." name="body"  style="">
+        </form>
+    
+        
+       
+        <!-- attachment btn -->
+        <div class="attach-btn">
+          <strong><span class="glyphicon glyphicon-paperclip file-btn"></span></strong>
+        </div>
+        
+        <span class="glyphicon glyphicon-send send-btn"></span>
+        <!-- send btn -->
+        
+      </div>
+     
+    </section>
+  </div>
+  
+  {% endblock %}
+  {% block extra_script %}
+
+    <!-- jQuey, Popper, BootstrapJS -->
+    <script src="{% static 'css/message/bootstrap3.3/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'css/message/bootstrap3.3/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/message/message.js' %}"></script>
+    <script src="{% static 'js/message/theme-msg.js' %}"></script>
+    <!-- MDB -->
+<script type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"
+></script>
+<script>
+
+    document.querySelector('.send-btn').addEventListener('click', function() {
+        document.getElementById('message-form').submit();
+    });
+
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.dropdown-submenu a.dropdown-toggle').on("click", function(e) {
+          var $subMenu = $(this).next(".dropdown-menu");
+          $subMenu.toggle();
+          e.stopPropagation();
+          e.preventDefault();
+      });
+  });
+  </script>
+
+
+
+<script>
+
+  $(document).ready(function() {
+    var a = $('#dropdown_menu');
+    var submit=$("#theme-submit");
+    
+    a.empty(); // Clear the contents of the selected element
+    //console.log(a); // Log the jQuery object to the console
+    let dropdownMenu = $('#dropdown_menu');
+
+            // Get the value of the custom attribute 'dama'
+            let damaValue = dropdownMenu.attr('dama');
+
+            // Print the value to the console
+            
+    
+    var b = [
+        "background: linear-gradient(115deg, #ff8800, #ff3300);",
+        "background: linear-gradient(115deg, #004ff9, #fff94c);",
+        "background: linear-gradient(115deg, #fa8bff, #2bd2ff, #2bff88);",
+        "background: linear-gradient(115deg, #f878ff, #ffda9e, #ffffff);",
+        "background: linear-gradient(115deg, #ff004c, #ffffff, #0099ff);",
+        "background: linear-gradient(115deg, #a0e384, #ffc180, #db35af);",
+        "background: linear-gradient(115deg, #60ff60, #b9f7ff, #ff7a7a);",
+        "background: linear-gradient(115deg, #f4d7d7, #fe8584, #f5d3b3);",
+        "background: linear-gradient(90deg, hsla(1, 84%, 80%, 1) 0%, hsla(56, 100%, 50%, 1) 100%);",
+        "background: linear-gradient(90deg, hsla(89, 60%, 87%, 1) 0%, hsla(34, 86%, 58%, 1) 50%, hsla(335, 81%, 65%, 1) 100%);",
+        "background: linear-gradient(90deg, hsla(189, 100%, 50%, 1) 0%, hsla(248, 16%, 61%, 1) 100%);"
+    ];
+   
+    
+    a.prepend('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
+    for (let x in b) {
+     
+      // Assuming s[y] contains the shape value 
+a.append(` <li><input type="radio" name="theme" value="${b[x]}" class="dropdown-item choose-theme" id="choose-theme" onchange="this.form.submit()"><div class="koushik" style=" ${b[x]} "></div></a></li>`);
+    } 
+    a.append(submit)
+});
+
+$(document).ready(function() {
+  var theme=$("#mySpan").text();
+
+  $("#mySpan").hide();
+ 
+  //console.log("theme",theme)
+  $(".choose-theme").each(function() {
+    var value = $(this).val();
+    // Check if the value of the current radio button matches the value you want to match
+    if ($(this).val() == theme) {
+        // Set the checked attribute to true for the matching radio button
+        $(this).prop('checked', true);
+    }})
+});
+</script>
+<script>
+function Edit_Msg(body,id){
+  $(".msg_id").val(id);
+  $(".message_body").val(body);
+  $(".checking").val("1");
+  console.log(body,id)
+}
+
+</script>
+
+
+{% endblock %}
+
+
+</body>
+</html>

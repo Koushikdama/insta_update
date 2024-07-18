@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+{% for post_item,like in post_items %}
+
+   
+<p>{{ post_item.user.username }}</p>
+<p>{{ like }}</p>
+
+{% endfor %}
+{% endblock %}
